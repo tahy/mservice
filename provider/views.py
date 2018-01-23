@@ -33,7 +33,11 @@ class ServiceList(viewsets.ModelViewSet):
 
 
 class SearchView(APIView):
-    """Поиск"""
+    """Поиск по услуге и точке на карте
+
+        Формат поисковой строки: ?service=1&point=12,20
+        (id услуги и широта,долгота точки в которой ищем поставщиков)
+    """
 
     def get(self, request, format=None):
         queryset = Area.objects.all()
