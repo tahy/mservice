@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+
+  postgis:
+    image: kartoza/postgis:9.6-2.4
+    volumes:
+      - pgsql_data:/var/lib/postgresql
+    restart: always
+    environment:
+      POSTGRES_USER: dbuser
+      POSTGRES_PASS: password
+      POSTGRES_DBNAME: gis
+      ALLOW_IP_RANGE: 0.0.0.0/0
+    ports:
+      - "5432:5432"
+
+  web:
+    build: .
+    command: python3 manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgis
+
+volumes:
+    pgsql_data:
